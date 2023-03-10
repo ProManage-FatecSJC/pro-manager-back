@@ -1,2 +1,2 @@
-# promanage-backend
-Repositório reservado aos conteúdos do projeto relacionados conteúdo de Back-end.
+# pro-manager-back
+Repositório reservado aos conteúdos do projeto relacionados ao conteúdo de Back-end.
