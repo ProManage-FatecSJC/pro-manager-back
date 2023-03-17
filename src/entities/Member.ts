@@ -6,7 +6,7 @@ import { Partner } from "./Partner"
 @Entity('members')
 export class Member{
     @PrimaryGeneratedColumn("uuid")
-    id: number
+    id: string
 
     @Column({ type: 'text'})
     name: string
