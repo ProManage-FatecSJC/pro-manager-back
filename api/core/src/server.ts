@@ -2,7 +2,7 @@ import express from 'express';
 import { AppDataSource } from './data-source';
 import routes from './routes'
 
-await AppDataSource.initialize();
+AppDataSource.initialize();
 
 const app = express();
 
