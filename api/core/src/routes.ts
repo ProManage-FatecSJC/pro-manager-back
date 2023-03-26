@@ -2,6 +2,7 @@ import { Router } from "express";
 import { MemberController } from "./controllers/MemberController";
 import { PartnerController } from "./controllers/PartnerController";
 import { UserController } from "./controllers/UserController";
+import { UserService } from "./services/UserService";
 
 const routes = Router()
 
@@ -23,5 +24,6 @@ routes.delete('/members/:id', memberController.deleteMember)
 
 //USER ROUTES
 routes.post('/register', userController.registerUser)
+routes.post('/login', userController.login)
 
 export default routes
