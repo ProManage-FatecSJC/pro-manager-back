@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { LoginDto } from "../dtos/users/loginDto";
 import { UserRepository } from "../repositories/UserRepository";
 import { UserService } from "../services/UserService";
+import jwt, { Secret } from 'jsonwebtoken'
 
 export class UserController {
 
@@ -30,7 +31,10 @@ export class UserController {
             const validateUser = await userService.DecodePassword(login.password, user.password)
             if(!validateUser) return res.status(400).json({message: "Dados de cadastro incorretos."})
 
-            return res.status(200).json({message: "Logado com sucesso"})
+            const secret = process.env.TOKEN_SECRET as string
+            const token = jwt.sign(user, secret, {expiresIn: '3h'})
+
+            return res.status(200).json({token: token})
 
         } catch (error) {
             console.log(error)
