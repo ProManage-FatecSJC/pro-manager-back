@@ -2,6 +2,7 @@ import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn
 import { Address } from "./Address"
 import { Responsible } from "./Responsible"
 import { Member } from "./Member"
+import { Status } from "./Status"
 
 @Entity('partners')
 export class Partner {
@@ -24,7 +25,7 @@ export class Partner {
     telephone: string
 
     @Column({ type: 'text'})
-    status: string
+    status: Status
 
     @Column({ type: 'text'})
     observation: string
