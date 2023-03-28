@@ -3,6 +3,7 @@ import { LoginDto } from "../dtos/users/loginDto";
 import { UserRepository } from "../repositories/UserRepository";
 import { UserService } from "../services/UserService";
 import jwt, { Secret } from 'jsonwebtoken'
+import { UserUpdateDto } from "../dtos/users/userUpdateDto";
 
 export class UserController {
 
@@ -15,6 +16,25 @@ export class UserController {
             return res.status(200).json(await UserRepository.save(user))
         } catch (error) {
             return res.status(400).json({message: "Falha ao cadastrar usuário"})
+        }
+    }
+
+    public async updateUser(req: Request, res: Response){
+
+        const { id } = req.params
+        const userService = new UserService()
+        try {
+            const encodedPassword: string = await userService.EncodePassword(req.body.password)
+
+            const userUpdate: UserUpdateDto = req.body
+            const user = UserRepository.create(userUpdate)
+            
+            user.password = encodedPassword
+            user.id = id
+            
+            return res.status(200).json(await UserRepository.save(user))
+        } catch (error) {
+            return res.status(400).json({message: ""})
         }
     }
 

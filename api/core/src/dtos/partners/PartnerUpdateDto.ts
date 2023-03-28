@@ -1,3 +1,5 @@
+import { Status } from "../../entities/Status"
+
 export class PartnerUpdateDto {
     name: string
 
@@ -9,7 +11,7 @@ export class PartnerUpdateDto {
 
     telephone: string
 
-    status: string
+    status: Status
 
     observation: string
 }
