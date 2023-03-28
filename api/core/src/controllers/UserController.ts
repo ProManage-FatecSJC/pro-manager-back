@@ -6,8 +6,28 @@ import jwt, { JwtPayload, Secret } from 'jsonwebtoken'
 import { UserUpdateDto } from "../dtos/users/userUpdateDto";
 import { TokenDto } from "../dtos/users/tokenDto";
 import { ERole } from "../enum/ERole";
+import { Users } from "../entities/User";
+import { UserReadDto } from "../dtos/users/userReadDto";
 
 export class UserController {
+
+    public async getUsers(req: Request, res: Response){
+        try {
+            const users: Users = await UserRepository.find()
+            const usersReadDto: UserReadDto[] = users.map(user => {
+                const userReadDto = new UserReadDto()
+                userReadDto.id = user.id
+                userReadDto.name = user.name
+                userReadDto.email = user.email
+                userReadDto.role = user.role
+                return userReadDto
+            })
+
+            return res.status(200).json(usersReadDto)
+        } catch (error) {
+            return res.status(400).json({message: "Falha ao buscar usuários"})
+        }
+    }
 
     public async registerUser(req: Request, res: Response){
 
@@ -73,4 +93,12 @@ export class UserController {
         }
     }
     
+    public async deleteUsers(req: Request, res: Response){
+        const { id } = req.params
+        try {
+            return res.status(200).json(await UserRepository.delete(id))
+        } catch (error) {
+            return res.status(400).json({message: "Falha ao deletar usuário"})
+        }
+    }
 }

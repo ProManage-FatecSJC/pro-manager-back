@@ -16,7 +16,8 @@ export class User{
     password: string
 
     @Column({ type: 'text'})
-    role: ERole
+    role: string
 
 }
 
+export type Users = Array<User>

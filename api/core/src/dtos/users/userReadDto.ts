@@ -1,8 +1,11 @@
 import { ERole } from "../../enum/ERole"
 
-export class UserUpdateDto {
+export class UserReadDto {
+    id: string
+
     name: string
+
     email: string
-    password: string
+    
     role: string
 }

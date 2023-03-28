@@ -2,7 +2,6 @@ import { Router } from "express";
 import { MemberController } from "./controllers/MemberController";
 import { PartnerController } from "./controllers/PartnerController";
 import { UserController } from "./controllers/UserController";
-import { UserService } from "./services/UserService";
 
 const routes = Router()
 
@@ -23,7 +22,9 @@ routes.put('/members/:id', memberController.updateMember)
 routes.delete('/members/:id', memberController.deleteMember)
 
 //USER ROUTES
+routes.get('/users', userController.getUsers)
 routes.post('/register', userController.registerUser)
 routes.post('/login', userController.login)
+routes.delete('/users/:id', userController.deleteUsers)
 
 export default routes

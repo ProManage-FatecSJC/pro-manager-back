@@ -5,6 +5,14 @@ import { ResponsibleRepository } from "../repositories/ResponsibleRepository";
 
 export class ResponsibleController {
 
+    public async getResponsibles(req: Request, res: Response){
+        try {
+            
+        } catch (error) {
+            
+        }
+    }
+
     public async createResponsible(req: Request, res: Response){
         try {
             const responsibleDto: CreateResponsibleDto = req.body
