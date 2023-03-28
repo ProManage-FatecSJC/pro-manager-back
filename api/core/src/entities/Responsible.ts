@@ -5,7 +5,7 @@ import { Contact } from "./Contact"
 @Entity('responsibles')
 export class Responsible{
     @PrimaryGeneratedColumn("uuid")
-    id: number
+    id: string
 
     @Column({ type: 'text'})
     name: string
