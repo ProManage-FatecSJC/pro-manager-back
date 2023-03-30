@@ -3,7 +3,7 @@ import { LoginDto } from "../dtos/users/loginDto";
 import { UserRepository } from "../repositories/UserRepository";
 import { UserService } from "../services/UserService";
 import jwt, { JwtPayload, Secret } from 'jsonwebtoken'
-import { UserUpdateDto } from "../dtos/users/userUpdateDto";
+import { UserDto } from "../dtos/users/userUpdateDto";
 import { TokenDto } from "../dtos/users/tokenDto";
 import { ERole } from "../enum/ERole";
 import { Users } from "../entities/User";
@@ -15,11 +15,7 @@ export class UserController {
         try {
             const users: Users = await UserRepository.find()
             const usersReadDto: UserReadDto[] = users.map(user => {
-                const userReadDto = new UserReadDto()
-                userReadDto.id = user.id
-                userReadDto.name = user.name
-                userReadDto.email = user.email
-                userReadDto.role = user.role
+                const userReadDto = new UserReadDto(user.id, user.name, user.email, user.role)
                 return userReadDto
             })
 
@@ -38,8 +34,11 @@ export class UserController {
             //if(userData.role != "ADMIN") return res.status(403).json({ message: "Não autorizado"})
 
             req.body.password = await userService.EncodePassword(req.body.password)
-            const user = UserRepository.create(req.body)
-            return res.status(200).json(await UserRepository.save(user))
+            const userDto: UserDto = req.body
+            const newUser = UserRepository.create(userDto)
+            const user = await UserRepository.save(newUser)
+            const userReadDto = new UserReadDto(user.id, user.name, user.email, user.role)
+            return res.status(200).json(userReadDto)
         } catch (error) {
             return res.status(400).json({message: "Falha ao cadastrar usuário"})
         }
@@ -52,7 +51,7 @@ export class UserController {
         try {
             const encodedPassword: string = await userService.EncodePassword(req.body.password)
 
-            const userUpdate: UserUpdateDto = req.body
+            const userUpdate: UserDto = req.body
             const user = UserRepository.create(userUpdate)
             
             user.password = encodedPassword

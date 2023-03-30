@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { MemberController } from "./controllers/MemberController";
 import { PartnerController } from "./controllers/PartnerController";
+import { ResponsibleController } from "./controllers/ResponsibleController";
 import { UserController } from "./controllers/UserController";
 
 const routes = Router()
@@ -8,6 +9,7 @@ const routes = Router()
 const partnerController = new PartnerController()
 const memberController = new MemberController()
 const userController = new UserController()
+const responsibleController = new ResponsibleController()
 
 //PARTNER ROUTES
 routes.get('/partners', partnerController.getPartners)
@@ -26,5 +28,11 @@ routes.get('/users', userController.getUsers)
 routes.post('/register', userController.registerUser)
 routes.post('/login', userController.login)
 routes.delete('/users/:id', userController.deleteUsers)
+
+//RESPONSIBLE ROUTES
+routes.get('/responsibles', responsibleController.getResponsibles)
+routes.post('/responsibles', responsibleController.createResponsible)
+routes.put('/responsibles/:id', responsibleController.updateResponsible)
+routes.delete('/responsibles/:id', responsibleController.deleteResponsible)
 
 export default routes
