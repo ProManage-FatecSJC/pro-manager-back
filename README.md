@@ -17,10 +17,10 @@ As seguintes tecnologias e ferramentas foram utilizadas neste projeto: `Typescri
 $ git clone https://github.com/Conveccao/conveccao-backend.git
 
 # Acesse a primira pasta do projeto
-$ cd \api/
+$ cd api
 
 # Acesse a segunda pasta do projeto
-$ cd \core/
+$ cd core
 
 # Instale as dependências
 $ npm install
