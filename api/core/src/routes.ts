@@ -3,6 +3,7 @@ import { MemberController } from "./controllers/MemberController";
 import { PartnerController } from "./controllers/PartnerController";
 import { ResponsibleController } from "./controllers/ResponsibleController";
 import { UserController } from "./controllers/UserController";
+import { authMiddleware } from "./middleware/AuthMiddleware";
 
 const routes = Router()
 
@@ -12,27 +13,27 @@ const userController = new UserController()
 const responsibleController = new ResponsibleController()
 
 //PARTNER ROUTES
-routes.get('/partners', partnerController.getPartners)
-routes.post('/partners', partnerController.createPartner)
-routes.put('/partners/:id', partnerController.updatePartner)
-routes.delete('/partners/:id', partnerController.deletePartner)
+routes.get('/partners', authMiddleware, partnerController.getPartners)
+routes.post('/partners', authMiddleware, partnerController.createPartner)
+routes.put('/partners/:id', authMiddleware, partnerController.updatePartner)
+routes.delete('/partners/:id', authMiddleware, partnerController.deletePartner)
 
 //MEMBERS ROUTES
-routes.get('/members', memberController.getMembers)
-routes.post('/members', memberController.createMember)
-routes.put('/members/:id', memberController.updateMember)
-routes.delete('/members/:id', memberController.deleteMember)
+routes.get('/members', authMiddleware, memberController.getMembers)
+routes.post('/members', authMiddleware, memberController.createMember)
+routes.put('/members/:id', authMiddleware, memberController.updateMember)
+routes.delete('/members/:id', authMiddleware, memberController.deleteMember)
 
 //USER ROUTES
-routes.get('/users', userController.getUsers)
-routes.post('/register', userController.registerUser)
+routes.get('/users', authMiddleware, userController.getUsers)
+routes.post('/register', authMiddleware, userController.registerUser)
 routes.post('/login', userController.login)
-routes.delete('/users/:id', userController.deleteUsers)
+routes.delete('/users/:id', authMiddleware, userController.deleteUsers)
 
 //RESPONSIBLE ROUTES
-routes.get('/responsibles', responsibleController.getResponsibles)
-routes.post('/responsibles', responsibleController.createResponsible)
-routes.put('/responsibles/:id', responsibleController.updateResponsible)
-routes.delete('/responsibles/:id', responsibleController.deleteResponsible)
+routes.get('/responsibles', authMiddleware, responsibleController.getResponsibles)
+routes.post('/responsibles', authMiddleware, responsibleController.createResponsible)
+routes.put('/responsibles/:id', authMiddleware, responsibleController.updateResponsible)
+routes.delete('/responsibles/:id', authMiddleware, responsibleController.deleteResponsible)
 
 export default routes

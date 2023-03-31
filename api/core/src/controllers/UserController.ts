@@ -27,11 +27,11 @@ export class UserController {
 
     public async registerUser(req: Request, res: Response){
 
-        //let header = req.headers.authorization as string
+        let header = req.headers.authorization as string
         const userService = new UserService()
         try {
-            //const userData: JwtPayload = userService.GetUserData(header)
-            //if(userData.role != "ADMIN") return res.status(403).json({ message: "Não autorizado"})
+            const userData: JwtPayload = userService.GetUserData(header)
+            if(userData.role != 0) return res.status(403).json({ message: "Não autorizado"})
 
             req.body.password = await userService.EncodePassword(req.body.password)
             const userDto: UserDto = req.body
