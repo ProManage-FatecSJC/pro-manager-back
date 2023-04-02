@@ -3,6 +3,9 @@ import { Address } from "./Address"
 import { Responsible } from "./Responsible"
 import { Member } from "./Member"
 import { Status } from "./Status"
+import { EStatus } from "../enum/EStatus"
+import { EClassification } from "../enum/EClassification"
+import { EType } from "../enum/EType"
 
 @Entity('partners')
 export class Partner {
@@ -12,27 +15,26 @@ export class Partner {
     @Column({ type: 'text'})
     name: string
 
-    @Column({ type: 'text'})
-    trade_name: string
-
-    @Column({ type: 'text'})
-    CNPJ: string
+    @Column({ type: 'int'})
+    classification: EClassification //public or private (0 / 1)
 
     @Column({ type: 'int'})
-    classification: number
+    type: EType //unique or multiple (0 / 1)
+
+    @Column({ type: 'int'})
+    membersQuantity: number
 
     @Column({ type: 'text'})
     telephone: string
 
-    @Column({ type: 'text'})
-    status: Status
+    @Column({ type: 'int'})
+    status: EStatus
 
     @Column({ type: 'text'})
-    observation: string
+    state: string
 
-    @OneToOne(() => Address)
-    @JoinColumn({name: 'partner_address_id'})
-    address: Address
+    @Column({type: 'text'})
+    intermediateResponsible: string
 
     @OneToOne(() => Responsible)
     @JoinColumn({name: 'partner_responsible_id'})
@@ -41,4 +43,17 @@ export class Partner {
     @OneToMany(() => Member, (member) => member.partner)
     @JoinColumn({name: 'member_id'})
     members: Member[]
+
+    // @Column({ type: 'text'})
+    // trade_name: string
+
+    // @Column({ type: 'text'})
+    // CNPJ: string
+
+    // @Column({ type: 'text'})
+    // observation: string
+
+    // @OneToOne(() => Address)
+    // @JoinColumn({name: 'partner_address_id'})
+    // address: Address
 }

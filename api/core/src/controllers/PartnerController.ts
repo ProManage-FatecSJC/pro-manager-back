@@ -18,6 +18,7 @@ export class PartnerController {
             const newPartner = PartnerRepository.create(req.body)
             return res.status(200).json(await PartnerRepository.save(newPartner))
         } catch (error) {
+            console.log(error)
             return res.status(400).json({message: "Erro ao cadastrar parceiro."})
         }
     }

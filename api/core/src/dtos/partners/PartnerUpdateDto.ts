@@ -1,17 +1,22 @@
 import { Status } from "../../entities/Status"
+import { EClassification } from "../../enum/EClassification"
+import { EStatus } from "../../enum/EStatus"
+import { EType } from "../../enum/EType"
 
 export class PartnerUpdateDto {
     name: string
 
-    trade_name: string
+    classification: EClassification
 
-    CNPJ: string
+    type: EType
 
-    classification: number
+    membersQuantity: number
 
     telephone: string
 
-    status: Status
+    status: EStatus
 
-    observation: string
+    state: string
+
+    intermediateResponsible: string
 }
