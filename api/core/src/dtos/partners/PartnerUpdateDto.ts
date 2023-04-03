@@ -1,12 +1,12 @@
 import { Status } from "../../entities/Status"
-import { EClassification } from "../../enum/EClassification"
+import { EPrivacy } from "../../enum/EPrivacy"
 import { EStatus } from "../../enum/EStatus"
 import { EType } from "../../enum/EType"
 
 export class PartnerUpdateDto {
     name: string
 
-    classification: EClassification
+    privacy: EPrivacy
 
     type: EType
 

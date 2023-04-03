@@ -4,7 +4,7 @@ import { Responsible } from "./Responsible"
 import { Member } from "./Member"
 import { Status } from "./Status"
 import { EStatus } from "../enum/EStatus"
-import { EClassification } from "../enum/EClassification"
+import { EPrivacy } from "../enum/EPrivacy"
 import { EType } from "../enum/EType"
 
 @Entity('partners')
@@ -16,7 +16,7 @@ export class Partner {
     name: string
 
     @Column({ type: 'int'})
-    classification: EClassification //public or private (0 / 1)
+    privacy: EPrivacy //public or private (0 / 1)
 
     @Column({ type: 'int'})
     type: EType //unique or multiple (0 / 1)

@@ -1,4 +1,4 @@
-export enum EClassification {
+export enum EPrivacy {
     "Privado",
     "Publico"
 }
