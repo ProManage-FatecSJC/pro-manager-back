@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { PartnerUpdateDto } from "../dtos/partners/PartnerUpdateDto";
 import { PartnerRepository } from "../repositories/PartnerRepository";
 import { PartnerService } from "../services/PartnerService";
+import { JwtPayload } from "jsonwebtoken";
+import { UserService } from "../services/UserService";
 
 export class PartnerController {
 
@@ -14,7 +16,12 @@ export class PartnerController {
     }
 
     public async createPartner(req: Request, res: Response){
+
+        let header = req.headers.authorization as string
+        const userService = new UserService()
         try {
+            const userData: JwtPayload = userService.GetUserData(header)
+            if(userData.role != 0) return res.status(403).json({ message: "Não autorizado"})
             const newPartner = PartnerRepository.create(req.body)
             return res.status(200).json(await PartnerRepository.save(newPartner))
         } catch (error) {

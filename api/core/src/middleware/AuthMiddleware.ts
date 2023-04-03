@@ -12,6 +12,10 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
 
         const token = authorization.split(' ')[1]
 
+        if(!token){
+            return res.status(401).json({message: "Não autorizado"})
+        }
+
         const userVerification = jwt.verify(token, process.env.TOKEN_SECRET ?? '') as JwtPayload
 
         let id = userVerification.id

@@ -8,8 +8,14 @@ AppDataSource.initialize();
 
 const app = express();
 
+const allowedOrigins = '*'
+
+const options: cors.CorsOptions = {
+    origin: allowedOrigins
+}
+
 app.use(express.json());
-app.use(cors());
+app.use(cors(options));
 
 app.get('/', (req, res) => {
     return res.json('ok')
