@@ -8,14 +8,14 @@ AppDataSource.initialize();
 
 const app = express();
 
-const allowedOrigins = '*'
-
-const options: cors.CorsOptions = {
-    origin: allowedOrigins
-}
-
 app.use(express.json());
-app.use(cors(options));
+app.use(cors({
+    allowedHeaders: ["authorization", "Content-Type"],
+    exposedHeaders: ["authorization"],
+    origin: "*",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    preflightContinue: false
+  }));
 
 app.get('/', (req, res) => {
     return res.json('ok')
