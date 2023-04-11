@@ -82,7 +82,7 @@ export class UserController {
                 role: user.role
             }
             const secret = process.env.TOKEN_SECRET as string
-            const token = jwt.sign(tokenDto, secret, {expiresIn: '3h'})
+            const token = jwt.sign(tokenDto, secret, {expiresIn: '1h'})
 
             return res.status(200).json({token: token})
 

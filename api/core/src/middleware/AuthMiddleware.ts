@@ -16,6 +16,12 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
             return res.status(401).json({message: "Não autorizado"})
         }
 
+        const tokenData = JSON.parse(atob(token.split('.')[1]))
+        const expDate = new Date(tokenData.exp * 1000)
+        const currentDate = new Date()
+
+        if (currentDate > expDate) return res.status(401).json({ message: "Token expirado!"})
+
         const userVerification = jwt.verify(token, process.env.TOKEN_SECRET ?? '') as JwtPayload
 
         let id = userVerification.id
