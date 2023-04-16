@@ -17,10 +17,6 @@ app.use(cors({
     preflightContinue: false
   }));
 
-app.get('/', (req, res) => {
-    return res.json('ok')
-})
-
 app.use(routes)
 
 //DEPLOY

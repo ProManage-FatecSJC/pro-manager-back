@@ -4,6 +4,7 @@ import { PartnerController } from "./controllers/PartnerController";
 import { ResponsibleController } from "./controllers/ResponsibleController";
 import { UserController } from "./controllers/UserController";
 import { authMiddleware } from "./middleware/AuthMiddleware";
+import { StatusController } from "./controllers/StatusController";
 
 const routes = Router()
 
@@ -11,6 +12,7 @@ const partnerController = new PartnerController()
 const memberController = new MemberController()
 const userController = new UserController()
 const responsibleController = new ResponsibleController()
+const statusController = new StatusController()
 
 //PARTNER ROUTES
 routes.get('/partners', authMiddleware, partnerController.getPartners)
@@ -35,5 +37,9 @@ routes.get('/responsibles', authMiddleware, responsibleController.getResponsible
 routes.post('/responsibles', authMiddleware, responsibleController.createResponsible)
 routes.put('/responsibles/:id', authMiddleware, responsibleController.updateResponsible)
 routes.delete('/responsibles/:id', authMiddleware, responsibleController.deleteResponsible)
+
+//STATUS ROUTES
+routes.get('/status', authMiddleware, statusController.getStatus)
+routes.delete('/status/:id', authMiddleware, statusController.deleteStatus)
 
 export default routes

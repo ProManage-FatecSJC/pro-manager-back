@@ -36,6 +36,10 @@ export class Partner {
     @Column({type: 'text'})
     intermediateResponsible: string
 
+    @OneToOne(() => Status, {onDelete: 'CASCADE'})
+    @JoinColumn({name: 'status_id'})
+    statusDates: Status
+
     @OneToOne(() => Responsible)
     @JoinColumn({name: 'partner_responsible_id'})
     responsible: Responsible
