@@ -18,6 +18,16 @@ export class PartnerController {
         }
     }
 
+    public async getPartnersByFiltro(req: Request, res: Response){
+        const { status }= req.params
+
+        try {
+            return res.status(200).json(await PartnerRepository.findByStatus(parseInt(status)))
+        } catch (error) {
+            return res.status(400).json({ message: 'Ocorreu um erro ao filtrar parceiros.'})
+        }
+    }
+
     public async createPartner(req: Request, res: Response){
 
         let header = req.headers.authorization as string

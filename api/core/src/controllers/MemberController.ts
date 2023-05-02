@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import MemberUpdateDto from "../dtos/members/MemberUpdateDto";
 import { MemberRepository } from "../repositories/MemberRepository";
+import { request } from "http";
 
 export class MemberController {
 
@@ -9,6 +10,19 @@ export class MemberController {
             return res.status(200).json(await MemberRepository.find({
                 relations: {
                     partner: true
+                }
+            }))
+        } catch (error) {
+            return res.status(400).json({message: "Erro ao resgatar membros"})
+        }
+    }
+
+    public async getMembersByPartner(req: Request, res: Response){
+        const { id } = req.params
+        try {
+            return res.status(200).json(await MemberRepository.findBy({
+                partner: {
+                    id: id
                 }
             }))
         } catch (error) {

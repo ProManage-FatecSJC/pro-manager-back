@@ -16,12 +16,14 @@ const statusController = new StatusController()
 
 //PARTNER ROUTES
 routes.get('/partners', authMiddleware, partnerController.getPartners)
+routes.get('/partners/:status', authMiddleware, partnerController.getPartnersByFiltro)
 routes.post('/partners', authMiddleware, partnerController.createPartner)
 routes.put('/partners/:id', authMiddleware, partnerController.updatePartner)
 routes.delete('/partners/:id', authMiddleware, partnerController.deletePartner)
 
 //MEMBERS ROUTES
 routes.get('/members', authMiddleware, memberController.getMembers)
+routes.get('/members/:id', authMiddleware, memberController.getMembersByPartner)
 routes.post('/members', authMiddleware, memberController.createMember)
 routes.put('/members/:id', authMiddleware, memberController.updateMember)
 routes.delete('/members/:id', authMiddleware, memberController.deleteMember)
