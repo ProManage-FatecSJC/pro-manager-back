@@ -65,18 +65,23 @@ export class PartnerController {
         }
     }
 
-    public async deletePartner(req: Request, res: Response){
+    public async archivePartner(req: Request, res: Response){
 
         const { id } = req.params
 
         try {
-            const partner = await PartnerRepository.findOneByOrFail({
+            const partner = await PartnerRepository.findOneBy({
                 id: id
             })
-            return res.status(200).json(await PartnerRepository.delete(partner))
+
+            if (partner != null) {
+                partner.isArchived = true
+                return res.status(200).json(await PartnerRepository.save(partner))
+            }
+            return res.status(400).json({message: "Erro ao arquivar parceiro."}) 
         } catch (error) {
             console.log(error)
-            return res.status(400).json({message: "Erro ao deletar parceiro."})
+            return res.status(400).json({message: "Erro ao arquivar parceiro."})
         }
     }
 }

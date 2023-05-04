@@ -5,4 +5,5 @@ export class PartnerFiltroDto {
     public privacy: any
     public type: any
     public state: string
+    public archived: boolean
 }

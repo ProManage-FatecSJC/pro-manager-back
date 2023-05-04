@@ -36,6 +36,9 @@ export class Partner {
     @Column({type: 'text'})
     intermediateResponsible: string
 
+    @Column({type: 'boolean', nullable: true})
+    isArchived: boolean
+
     @OneToOne(() => Status, {onDelete: 'CASCADE'})
     @JoinColumn({name: 'status_id'})
     statusDates: Status

@@ -19,7 +19,7 @@ routes.get('/partners', authMiddleware, partnerController.getPartners)
 routes.post('/partners/byFiltro', authMiddleware, partnerController.getPartnersByFiltro)
 routes.post('/partners', authMiddleware, partnerController.createPartner)
 routes.put('/partners/:id', authMiddleware, partnerController.updatePartner)
-routes.delete('/partners/:id', authMiddleware, partnerController.deletePartner)
+routes.delete('/partners/:id', authMiddleware, partnerController.archivePartner)
 
 //MEMBERS ROUTES
 routes.get('/members', authMiddleware, memberController.getMembers)

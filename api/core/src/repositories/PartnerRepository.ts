@@ -16,6 +16,9 @@ export const PartnerRepository = AppDataSource.getRepository(Partner).extend({
             if (filtro.state != null && filtro.state != 'all')
                 partners = partners.filter(x => x.state == filtro.state)
 
+            if (filtro.archived != null)
+                partners = partners.filter(x => x.isArchived == filtro.archived)
+                
             return partners
         } catch (error) {
             return error
