@@ -7,6 +7,7 @@ import { UserService } from "../services/UserService";
 import { StatusService } from "../services/StatusService";
 import { Partner } from "../entities/Partner";
 import { PartnerCreateDto } from "../dtos/partners/PartnerCreateDto";
+import { PartnerFiltroDto } from "../dtos/partners/PartnerFiltroDto";
 
 export class PartnerController {
 
@@ -19,10 +20,10 @@ export class PartnerController {
     }
 
     public async getPartnersByFiltro(req: Request, res: Response){
-        const { status }= req.params
+        const  filtro = req.body as PartnerFiltroDto
 
         try {
-            return res.status(200).json(await PartnerRepository.findByStatus(parseInt(status)))
+            return res.status(200).json(await PartnerRepository.findByFiltro(filtro))
         } catch (error) {
             return res.status(400).json({ message: 'Ocorreu um erro ao filtrar parceiros.'})
         }
