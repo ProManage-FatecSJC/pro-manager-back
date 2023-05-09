@@ -39,6 +39,7 @@ export class PartnerController {
             const userData: JwtPayload = userService.GetUserData(header)
             if(userData.role != 0) return res.status(403).json({ message: "Não autorizado"})
             const newPartner = PartnerRepository.create(partnerDto)
+            console.log('AAAAAAAAA ', newPartner)
             const partner = await PartnerRepository.save(newPartner)
             await statusService.CriaStatus(newPartner.status, partner)
             return res.status(200).json(partner)
