@@ -19,6 +19,18 @@ export class PartnerController {
         }
     }
 
+    public async getPartnerById(req: Request, res: Response){
+        const { id } = req.params
+
+        try {
+            return res.status(200).json(await PartnerRepository.findOneBy({
+                id: id
+            }))
+        } catch (error) {
+            return res.status(400).json({ message: 'Ocorreu um erro ao buscar parceiro' })
+        }
+    }
+
     public async getPartnersByFiltro(req: Request, res: Response){
         const  filtro = req.body as PartnerFiltroDto
 

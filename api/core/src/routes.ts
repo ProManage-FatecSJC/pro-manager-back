@@ -16,6 +16,7 @@ const statusController = new StatusController()
 
 //PARTNER ROUTES
 routes.get('/partners', authMiddleware, partnerController.getPartners)
+routes.get('/partners/:id', authMiddleware, partnerController.getPartnerById)
 routes.post('/partners/byFiltro', authMiddleware, partnerController.getPartnersByFiltro)
 routes.post('/partners', authMiddleware, partnerController.createPartner)
 routes.put('/partners/:id', authMiddleware, partnerController.updatePartner)
