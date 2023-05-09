@@ -20,14 +20,14 @@ routes.get('/partners/:id', authMiddleware, partnerController.getPartnerById)
 routes.post('/partners/byFiltro', authMiddleware, partnerController.getPartnersByFiltro)
 routes.post('/partners', authMiddleware, partnerController.createPartner)
 routes.put('/partners/:id', authMiddleware, partnerController.updatePartner)
-routes.delete('/partners/:id', authMiddleware, partnerController.archivePartner)
+routes.put('/partners/archive/:id', authMiddleware, partnerController.archivePartner)
 
 //MEMBERS ROUTES
 routes.get('/members', authMiddleware, memberController.getMembers)
 routes.get('/members/:id', authMiddleware, memberController.getMembersByPartner)
 routes.post('/members', authMiddleware, memberController.createMember)
 routes.put('/members/:id', authMiddleware, memberController.updateMember)
-routes.delete('/members/:id', authMiddleware, memberController.deleteMember)
+routes.put('/members/archive/:id', authMiddleware, memberController.archiveMember)
 
 //USER ROUTES
 routes.get('/users', authMiddleware, userController.getUsers)

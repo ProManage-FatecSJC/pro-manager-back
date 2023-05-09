@@ -36,7 +36,7 @@ export class Partner {
     @Column({type: 'text'})
     intermediateResponsible: string
 
-    @Column({type: 'boolean', nullable: true})
+    @Column({type: 'boolean', nullable: true, default: false})
     isArchived: boolean
 
     @OneToOne(() => Status, {onDelete: 'CASCADE'})

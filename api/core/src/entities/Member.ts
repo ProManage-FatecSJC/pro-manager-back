@@ -20,6 +20,9 @@ export class Member{
     @Column({ type: 'text'})
     telephone: string
 
+    @Column({ type: 'boolean', default: false})
+    isArchived: boolean
+
     @ManyToOne(() => Partner, (partner) => partner.members)
     partner: Partner
 

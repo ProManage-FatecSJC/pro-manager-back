@@ -64,18 +64,22 @@ export class MemberController {
         }
     }
 
-    public async deleteMember(req: Request, res: Response) {
+    public async archiveMember(req: Request, res: Response) {
 
         const { id } = req.params
 
         try {
-            const member = await MemberRepository.findOneByOrFail({
+            const member = await MemberRepository.findOneBy({
                 id: id
             })
 
-            return res.status(200).json(await MemberRepository.delete(member))
+            if(member == null)
+                return res.status(400).json({ message: "Erro ao arquivar membro"})
+
+            member.isArchived = true
+            return res.status(200).json(await MemberRepository.save(member))
         } catch (error) {
-            return res.status(400).json({message: "Erro ao deletar membro"})
+            return res.status(400).json({message: "Erro ao arquivar membro"})
         }
     }
 }
