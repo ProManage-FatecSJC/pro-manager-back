@@ -25,6 +25,7 @@ routes.put('/partners/archive/:id', authMiddleware, partnerController.archivePar
 //MEMBERS ROUTES
 routes.get('/members', authMiddleware, memberController.getMembers)
 routes.get('/members/:id', authMiddleware, memberController.getMembersByPartner)
+routes.get('/membersById/:id', authMiddleware, memberController.getMemberById)
 routes.post('/members', authMiddleware, memberController.createMember)
 routes.put('/members/:id', authMiddleware, memberController.updateMember)
 routes.put('/members/archive/:id', authMiddleware, memberController.archiveMember)

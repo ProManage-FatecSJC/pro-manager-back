@@ -9,6 +9,19 @@ import { AddressRepository } from "../repositories/AddressRepository";
 
 export class MemberController {
 
+    public async getMemberById(req: Request, res: Response) {
+
+        const { id } = req.params
+
+        try{
+            return res.status(200).json(await MemberRepository.findOneBy({
+                id: id
+            }))
+        } catch {
+            return res.status(400).json({message: "Erro ao resgatar membro"})
+        }
+    }
+
     public async getMembers(req: Request, res: Response) {
         try {
             return res.status(200).json(await MemberRepository.find({
