@@ -13,9 +13,7 @@ export class PartnerController {
 
     public async getPartners(req: Request, res: Response){
         try {
-            return res.status(200).json(await PartnerRepository.findBy({
-                isArchived: false || undefined
-            }))
+            return res.status(200).json(await PartnerRepository.find())
         } catch (error) {
             return res.status(400).json({message: "Erro ao resgatar parceiros."})
         }
