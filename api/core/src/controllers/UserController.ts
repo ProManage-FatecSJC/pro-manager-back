@@ -30,8 +30,17 @@ export class UserController {
         let header = req.headers.authorization as string
         const userService = new UserService()
         try {
+            const userExists = await UserRepository.findOneBy({
+                email: req.body.email
+            })
+
+            if(userExists)
+                return res.status(400).json({message: "Email já está sendo utilizado"})
+
             const userData: JwtPayload = userService.GetUserData(header)
             if(userData.role != 0) return res.status(403).json({ message: "Não autorizado"})
+
+
 
             req.body.password = await userService.EncodePassword(req.body.password)
             const userDto: UserDto = req.body
@@ -44,11 +53,38 @@ export class UserController {
         }
     }
 
+    public async getUserById(req: Request, res: Response){
+        const { id } = req.params
+
+        try {
+            const user = await UserRepository.findOneBy({
+                id: id
+            })
+
+            let userReadDto = null
+
+            if(user == null)
+                return res.status(400).json({message: "Usuário não encontrado"})
+            
+            userReadDto = new UserReadDto(user.id, user.name, user.email, user.role)
+            return res.status(200).json(userReadDto)
+        } catch (error) {
+            return res.status(400).json({message: "Falha ao buscar usuário"})
+        }
+    }
+
     public async updateUser(req: Request, res: Response){
 
         const { id } = req.params
         const userService = new UserService()
         try {
+            const userExists = await UserRepository.findOneBy({
+                email: req.body.email
+            })
+            
+            if(userExists && id != userExists.id)
+                return res.status(400).json({message: "Email já está sendo utilizado"})
+
             const encodedPassword: string = await userService.EncodePassword(req.body.password)
 
             const userUpdate: UserDto = req.body

@@ -33,8 +33,10 @@ routes.put('/members/archive/:id', authMiddleware, memberController.archiveMembe
 
 //USER ROUTES
 routes.get('/users', authMiddleware, userController.getUsers)
+routes.get('/users/:id', authMiddleware, userController.getUserById)
 routes.post('/register', authMiddleware, userController.registerUser)
 routes.post('/login', userController.login)
+routes.put('/users/:id', authMiddleware, userController.updateUser)
 routes.delete('/users/:id', authMiddleware, userController.deleteUsers)
 
 //RESPONSIBLE ROUTES
