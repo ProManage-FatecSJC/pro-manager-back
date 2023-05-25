@@ -81,11 +81,17 @@ export class UserController {
             const userExists = await UserRepository.findOneBy({
                 email: req.body.email
             })
+
+            if (!userExists)
+                return res.status(400).json({message: "Usuário não existe no sistema"})
             
             if(userExists && id != userExists.id)
                 return res.status(400).json({message: "Email já está sendo utilizado"})
 
             const encodedPassword: string = await userService.EncodePassword(req.body.password)
+
+            if (!await userService.DecodePassword(req.body.oldPassword, userExists.password))
+                return res.status(400).json({message: "Senha anterior incorreta"})
 
             const userUpdate: UserDto = req.body
             const user = UserRepository.create(userUpdate)
@@ -95,7 +101,8 @@ export class UserController {
             
             return res.status(200).json(await UserRepository.save(user))
         } catch (error) {
-            return res.status(400).json({message: ""})
+            console.log(error)
+            return res.status(400).json({message: "Erro ao atualizar usuário"})
         }
     }
 
