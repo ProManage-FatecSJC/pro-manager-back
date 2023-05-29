@@ -8,6 +8,7 @@ import { TokenDto } from "../dtos/users/tokenDto";
 import { ERole } from "../enum/ERole";
 import { Users } from "../entities/User";
 import { UserReadDto } from "../dtos/users/userReadDto";
+import { IdsRepository } from "../repositories/IdsRepository";
 
 export class UserController {
 
@@ -137,7 +138,16 @@ export class UserController {
     
     public async deleteUsers(req: Request, res: Response){
         const { id } = req.params
+        let header = req.headers.authorization as string
+        const userService = new UserService()
         try {
+            const userData: JwtPayload = userService.GetUserData(header)
+            const idExcluido = IdsRepository.create({
+                idExcluido: id,
+                idExclusor: userData.id
+            })
+
+            await IdsRepository.save(idExcluido)
             return res.status(200).json(await UserRepository.delete(id))
         } catch (error) {
             return res.status(400).json({message: "Falha ao deletar usuário"})
