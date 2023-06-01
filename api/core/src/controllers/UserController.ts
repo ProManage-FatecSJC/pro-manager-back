@@ -12,7 +12,7 @@ import { IdsRepository } from "../repositories/IdsRepository";
 
 export class UserController {
 
-    public async getUsers(req: Request, res: Response){
+    public async getUsers(req: Request, res: Response) {
         try {
             const users: Users = await UserRepository.find()
             const usersReadDto: UserReadDto[] = users.map(user => {
@@ -22,11 +22,11 @@ export class UserController {
 
             return res.status(200).json(usersReadDto)
         } catch (error) {
-            return res.status(400).json({message: "Falha ao buscar usuários"})
+            return res.status(400).json({ message: "Falha ao buscar usuários" })
         }
     }
 
-    public async registerUser(req: Request, res: Response){
+    public async registerUser(req: Request, res: Response) {
 
         let header = req.headers.authorization as string
         const userService = new UserService()
@@ -35,11 +35,11 @@ export class UserController {
                 email: req.body.email
             })
 
-            if(userExists)
-                return res.status(400).json({message: "Email já está sendo utilizado"})
+            if (userExists)
+                return res.status(400).json({ message: "Email já está sendo utilizado" })
 
             const userData: JwtPayload = userService.GetUserData(header)
-            if(userData.role != 0) return res.status(403).json({ message: "Não autorizado"})
+            if (userData.role != 0) return res.status(403).json({ message: "Não autorizado" })
 
 
 
@@ -50,11 +50,11 @@ export class UserController {
             const userReadDto = new UserReadDto(user.id, user.name, user.email, user.role)
             return res.status(200).json(userReadDto)
         } catch (error) {
-            return res.status(400).json({message: "Falha ao cadastrar usuário"})
+            return res.status(400).json({ message: "Falha ao cadastrar usuário" })
         }
     }
 
-    public async getUserById(req: Request, res: Response){
+    public async getUserById(req: Request, res: Response) {
         const { id } = req.params
 
         try {
@@ -64,17 +64,17 @@ export class UserController {
 
             let userReadDto = null
 
-            if(user == null)
-                return res.status(400).json({message: "Usuário não encontrado"})
-            
+            if (user == null)
+                return res.status(400).json({ message: "Usuário não encontrado" })
+
             userReadDto = new UserReadDto(user.id, user.name, user.email, user.role)
             return res.status(200).json(userReadDto)
         } catch (error) {
-            return res.status(400).json({message: "Falha ao buscar usuário"})
+            return res.status(400).json({ message: "Falha ao buscar usuário" })
         }
     }
 
-    public async updateUser(req: Request, res: Response){
+    public async updateUser(req: Request, res: Response) {
 
         const { id } = req.params
         const userService = new UserService()
@@ -84,41 +84,44 @@ export class UserController {
             })
 
             if (!userExists)
-                return res.status(400).json({message: "Usuário não existe no sistema"})
-            
-            if(userExists && id != userExists.id)
-                return res.status(400).json({message: "Email já está sendo utilizado"})
+                return res.status(400).json({ message: "Usuário não existe no sistema" })
 
-            const encodedPassword: string = await userService.EncodePassword(req.body.password)
+            if (userExists && id != userExists.id)
+                return res.status(400).json({ message: "Email já está sendo utilizado" })
 
-            if (!await userService.DecodePassword(req.body.oldPassword, userExists.password))
-                return res.status(400).json({message: "Senha anterior incorreta"})
+
+
+            if (req.body.oldPassword && !await userService.DecodePassword(req.body.oldPassword, userExists.password))
+                return res.status(400).json({ message: "Senha anterior incorreta" })
 
             const userUpdate: UserDto = req.body
             const user = UserRepository.create(userUpdate)
-            
-            user.password = encodedPassword
+
+            if (req.body.password) {
+                const encodedPassword: string = await userService.EncodePassword(req.body.password)
+                user.password = encodedPassword
+            }
             user.id = id
-            
+
             return res.status(200).json(await UserRepository.save(user))
         } catch (error) {
             console.log(error)
-            return res.status(400).json({message: "Erro ao atualizar usuário"})
+            return res.status(400).json({ message: "Erro ao atualizar usuário" })
         }
     }
 
     public async login(req: Request, res: Response) {
-        
+
         const userService = new UserService()
         const login: LoginDto = req.body
         try {
             const user = await UserRepository.findOneBy({
                 email: login.email
             })
-            if(!user) return res.status(400).json({message: "Dados de cadastro incorretos."})
+            if (!user) return res.status(400).json({ message: "Dados de cadastro incorretos." })
 
             const validateUser = await userService.DecodePassword(login.password, user.password)
-            if(!validateUser) return res.status(400).json({message: "Dados de cadastro incorretos."})
+            if (!validateUser) return res.status(400).json({ message: "Dados de cadastro incorretos." })
 
             let tokenDto: TokenDto = {
                 id: user.id,
@@ -126,17 +129,17 @@ export class UserController {
                 role: user.role
             }
             const secret = process.env.TOKEN_SECRET as string
-            const token = jwt.sign(tokenDto, secret, {expiresIn: '1h'})
+            const token = jwt.sign(tokenDto, secret, { expiresIn: '1h' })
 
-            return res.status(200).json({token: token})
+            return res.status(200).json({ token: token })
 
         } catch (error) {
             console.log(error)
-            return res.status(400).json({message: "Falha ao efetuar login"})
+            return res.status(400).json({ message: "Falha ao efetuar login" })
         }
     }
-    
-    public async deleteUsers(req: Request, res: Response){
+
+    public async deleteUsers(req: Request, res: Response) {
         const { id } = req.params
         let header = req.headers.authorization as string
         const userService = new UserService()
@@ -150,7 +153,7 @@ export class UserController {
             await IdsRepository.save(idExcluido)
             return res.status(200).json(await UserRepository.delete(id))
         } catch (error) {
-            return res.status(400).json({message: "Falha ao deletar usuário"})
+            return res.status(400).json({ message: "Falha ao deletar usuário" })
         }
     }
 }
